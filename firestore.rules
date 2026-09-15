@@ -1,0 +1,26 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // The form uses a single flat collection called "app_data" —
+    // every key (choice_response:5, settings:deadline, ...) is one document.
+    match /app_data/{docId} {
+      // Open read/write, no login required — matches the original Claude
+      // artifact version of this form, which also had no authentication.
+      // Anyone with the Firebase project's public config (which is not a
+      // secret — it's meant to be embedded client-side) can read and write.
+      //
+      // This is acceptable for a low-stakes internal tool, but it does mean
+      // someone could technically tamper with submissions if they wanted to.
+      // If you want tighter security later, the simplest upgrade is Firebase
+      // Anonymous Auth + a rule requiring request.auth != null, or a shared
+      // passcode checked in a Cloud Function.
+      allow read, write: if true;
+    }
+
+    // Everything else stays locked down.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

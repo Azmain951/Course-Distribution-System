@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Course Choice Form — Dept. of CSE, Varendra University</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Inter:wght@400;500;600&display=swap');
+
+  :root{
+    --navy:#1c2a44;
+    --navy-dark:#121b2c;
+    --paper:#eef1f5;
+    --card:#ffffff;
+    --line:#dde2e9;
+    --text:#20283a;
+    --muted:#616d80;
+    --brass:#a9762f;
+    --brass-light:#f3e6d2;
+    --danger:#b3411f;
+    --danger-bg:#fbeae4;
+    --success:#2f6b4f;
+    --success-bg:#e7f2ec;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Inter', -apple-system, sans-serif;
+    background:var(--paper);
+    color:var(--text);
+    padding:40px 16px 80px;
+  }
+  .wrap{max-width:640px;margin:0 auto;}
+  .masthead{margin-bottom:28px;}
+  .masthead .dept{font-size:13px;color:var(--muted);letter-spacing:.02em;margin:0 0 4px;}
+  .masthead h1{
+    font-family:'Lora',serif;
+    font-weight:600;
+    font-size:26px;
+    margin:0;
+    color:var(--navy-dark);
+  }
+  .masthead .sub{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.5;}
+
+  .tabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:1px solid var(--line);}
+  .tab{
+    padding:10px 4px;margin-right:20px;font-size:14px;color:var(--muted);
+    cursor:pointer;border-bottom:2px solid transparent;font-weight:500;
+    background:none;border-top:none;border-left:none;border-right:none;
+  }
+  .tab.active{color:var(--navy-dark);border-bottom-color:var(--brass);}
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:28px 28px 24px;
+  }
+  .field{margin-bottom:20px;}
+  .field label{
+    display:block;font-size:13px;font-weight:600;color:var(--navy-dark);
+    margin-bottom:6px;
+  }
+  select, textarea, input[type=text]{
+    width:100%;padding:10px 12px;font-size:14px;font-family:inherit;
+    border:1px solid var(--line);border-radius:6px;background:#fcfcfd;color:var(--text);
+  }
+  select:focus, textarea:focus, input:focus{
+    outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(28,42,68,0.12);
+  }
+  .helptext{font-size:12.5px;color:var(--muted);margin-top:8px;line-height:1.5;}
+
+  .choice-row{
+    display:flex;align-items:center;gap:12px;margin-bottom:10px;
+  }
+  .choice-badge{
+    flex:0 0 26px;height:26px;border-radius:50%;
+    background:var(--navy);color:#fff;font-size:12px;font-weight:600;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .choice-row.required .choice-badge{background:var(--brass);}
+  .choice-row select{flex:1;}
+
+  textarea{min-height:70px;resize:vertical;}
+
+  .error-msg{color:var(--danger);font-size:13px;margin-top:8px;display:none;}
+  .error-msg.show{display:block;}
+
+  button.submit{
+    width:100%;padding:13px;font-size:15px;font-weight:600;
+    background:var(--navy);color:#fff;border:none;border-radius:7px;
+    cursor:pointer;margin-top:6px;font-family:inherit;
+  }
+  button.submit:hover{background:var(--navy-dark);}
+  button.submit:active{transform:scale(0.99);}
+
+  .confirm{
+    text-align:center;padding:20px 10px;
+  }
+  .confirm .check{
+    width:48px;height:48px;border-radius:50%;background:var(--success-bg);
+    color:var(--success);display:flex;align-items:center;justify-content:center;
+    margin:0 auto 16px;font-size:24px;
+  }
+  .confirm h2{font-family:'Lora',serif;font-size:20px;margin:0 0 8px;color:var(--navy-dark);}
+  .confirm p{font-size:14px;color:var(--muted);margin:0 0 20px;}
+  .summary-list{
+    text-align:left;background:var(--paper);border-radius:8px;padding:14px 18px;margin-bottom:20px;
+  }
+  .summary-list div{font-size:13.5px;padding:4px 0;color:var(--text);}
+  .summary-list span.rank{color:var(--brass);font-weight:600;margin-right:6px;}
+  .edit-btn{
+    background:none;border:1px solid var(--line);color:var(--navy-dark);
+    padding:9px 18px;border-radius:7px;font-size:14px;cursor:pointer;font-family:inherit;font-weight:500;
+  }
+
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th{
+    text-align:left;padding:8px 10px;background:var(--navy);color:#fff;font-weight:600;
+    position:sticky;top:0;
+  }
+  td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#f7f8fa;}
+  .admin-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;}
+  .admin-toolbar .count{font-size:13px;color:var(--muted);}
+
+  .deadline-box{
+    background:var(--card);border:1px solid var(--line);border-radius:10px;
+    padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  }
+  .deadline-box label{font-size:13px;font-weight:600;color:var(--navy-dark);margin:0;}
+  .deadline-box input[type=datetime-local]{width:auto;padding:8px 10px;}
+  .deadline-box button{
+    background:var(--navy);color:#fff;border:none;padding:9px 16px;border-radius:6px;
+    font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;
+  }
+  .deadline-status{font-size:13px;color:var(--muted);margin-left:auto;}
+  .deadline-status.open{color:var(--success);}
+  .deadline-status.closed{color:var(--danger);}
+
+  .locked-banner{
+    background:var(--danger-bg);color:var(--danger);border-radius:8px;
+    padding:12px 16px;font-size:13.5px;margin-bottom:20px;line-height:1.5;
+  }
+  button.export{
+    background:var(--brass-light);color:var(--brass);border:none;padding:8px 16px;
+    border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;
+  }
+  .table-wrap{max-height:480px;overflow:auto;border:1px solid var(--line);border-radius:8px;}
+  .empty-state{padding:40px 20px;text-align:center;color:var(--muted);font-size:14px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <p class="dept">Varendra University — Dept. of Computer Science &amp; Engineering</p>
+    <h1>Course choice form</h1>
+    <p class="sub">Rank the courses you'd prefer to teach this semester, 1st choice (most preferred) through 6th choice (least preferred). You don't need to fill all six.</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="form" onclick="switchTab('form')">Submit choices</button>
+    <button class="tab" data-tab="admin" onclick="switchTab('admin')">All submissions</button>
+  </div>
+
+  <div id="form-view">
+    <div class="locked-banner" id="locked-banner" style="display:none;">
+      The submission deadline has passed. Choices are locked — contact the department if you need a change.
+    </div>
+    <div class="card" id="form-card">
+      <div class="field">
+        <label for="teacher-select">Your name</label>
+        <select id="teacher-select" onchange="onTeacherChange()">
+          <option value="">Select your name</option>
+        </select>
+        <p class="helptext" id="designation-line"></p>
+      </div>
+
+      <div class="field">
+        <label>Your preferences</label>
+        <div id="choice-rows"></div>
+        <p class="error-msg" id="choice-error">Choose at least your 1st preference, and don't repeat the same course twice.</p>
+      </div>
+
+      <div class="field">
+        <label for="remarks">Remarks <span style="font-weight:400;color:var(--muted);">(optional — e.g. section preferences, constraints)</span></label>
+        <textarea id="remarks" placeholder="e.g. Prefer not to be assigned to 7th A or C"></textarea>
+      </div>
+
+      <button class="submit" id="submit-btn" onclick="submitChoice()">Submit choices</button>
+    </div>
+
+    <div class="card" id="confirm-card" style="display:none;">
+      <div class="confirm">
+        <div class="check"><i>&#10003;</i></div>
+        <h2 id="confirm-name">Choices submitted</h2>
+        <p>Your preferences have been recorded for this semester.</p>
+        <div class="summary-list" id="confirm-summary"></div>
+        <button class="edit-btn" onclick="editSubmission()">Edit my submission</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="admin-view" style="display:none;">
+    <div class="deadline-box">
+      <label for="deadline-input">Submission deadline</label>
+      <input type="datetime-local" id="deadline-input">
+      <button onclick="saveDeadline()">Save deadline</button>
+      <button onclick="clearDeadline()" style="background:none;color:var(--navy-dark);border:1px solid var(--line);">Reopen (clear deadline)</button>
+      <span class="deadline-status" id="deadline-status"></span>
+    </div>
+    <div class="card">
+      <div class="admin-toolbar">
+        <span class="count" id="submission-count">Loading submissions…</span>
+        <button class="export" onclick="exportCSV()">Download CSV</button>
+      </div>
+      <div class="table-wrap">
+        <table id="admin-table">
+          <thead>
+            <tr>
+              <th>SL</th><th>Name</th><th>Designation</th>
+              <th>1st</th><th>2nd</th><th>3rd</th><th>4th</th><th>5th</th><th>6th</th>
+              <th>Remarks</th><th>Submitted</th>
+            </tr>
+          </thead>
+          <tbody id="admin-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================================
+     FIREBASE BACKEND — makes this form work as a standalone
+     GitHub Pages site (Claude's window.storage API only works
+     inside a Claude artifact, not on a plain web server).
+     Setup instructions: see SETUP_FIREBASE.md in the repo root.
+     ============================================================ -->
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script>
+// --- Paste your Firebase project config here (from Firebase Console > Project Settings > Your apps) ---
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+let firebaseReady = false;
+let db = null;
+try {
+  if (firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith('YOUR_')) {
+    firebase.initializeApp(firebaseConfig);
+    db = firebase.firestore();
+    firebaseReady = true;
+  }
+} catch (e) {
+  console.error('Firebase init failed:', e);
+}
+
+// Polyfill: implements the same get/set/delete/list interface the form's
+// existing JS already calls, so nothing else in this file needs to change.
+// All keys live in one flat Firestore collection ("app_data"), doc ID = key.
+window.storage = {
+  async get(key) {
+    if (!firebaseReady) throw new Error('Firebase not configured — see SETUP_FIREBASE.md');
+    const doc = await db.collection('app_data').doc(key).get();
+    if (!doc.exists) throw new Error('not found');
+    return { key, value: doc.data().value, shared: true };
+  },
+  async set(key, value) {
+    if (!firebaseReady) throw new Error('Firebase not configured — see SETUP_FIREBASE.md');
+    await db.collection('app_data').doc(key).set({ value, updated_at: new Date().toISOString() });
+    return { key, value, shared: true };
+  },
+  async delete(key) {
+    if (!firebaseReady) throw new Error('Firebase not configured — see SETUP_FIREBASE.md');
+    await db.collection('app_data').doc(key).delete();
+    return { key, deleted: true, shared: true };
+  },
+  async list(prefix) {
+    if (!firebaseReady) throw new Error('Firebase not configured — see SETUP_FIREBASE.md');
+    const snap = await db.collection('app_data').get();
+    const keys = [];
+    snap.forEach(d => { if (!prefix || d.id.startsWith(prefix)) keys.push(d.id); });
+    return { keys, prefix, shared: true };
+  }
+};
+
+if (!firebaseReady) {
+  window.addEventListener('DOMContentLoaded', () => {
+    const banner = document.createElement('div');
+    banner.style.cssText = 'background:#fbeae4;color:#b3411f;padding:16px 20px;margin:16px auto;max-width:640px;border-radius:8px;font-family:sans-serif;font-size:14px;line-height:1.5;';
+    banner.innerHTML = '<strong>Setup needed:</strong> This form isn\'t connected to a database yet. Open this file, find <code>firebaseConfig</code> near the top of the script, and paste in your Firebase project\'s config. See SETUP_FIREBASE.md for step-by-step instructions.';
+    document.body.prepend(banner);
+  });
+}
+</script>
+
+<script>
+const TEACHERS = [
+{"sl_no": 1, "name": "Prof. Shamim Ahmad", "designation": "Head"},
+{"sl_no": 2, "name": "Dr. Ahammad Hossain", "designation": "Associate Professor"},
+{"sl_no": 3, "name": "Md. Mizanur Rahman", "designation": "Assistant Professor"},
+{"sl_no": 4, "name": "Umme Rumman", "designation": "Assistant Professor"},
+{"sl_no": 5, "name": "Mst. Jannatul Ferdous", "designation": "Assistant Professor"},
+{"sl_no": 6, "name": "Sumaia Rahman", "designation": "Assistant Professor"},
+{"sl_no": 7, "name": "Tanver Ahmed", "designation": "Assistant Professor"},
+{"sl_no": 8, "name": "A.S.M. Delwar Hossain", "designation": "Lecturer"},
+{"sl_no": 9, "name": "Md. Toufikul Islam", "designation": "Lecturer"},
+{"sl_no": 10, "name": "Md. Nour Noby", "designation": "Lecturer"},
+{"sl_no": 11, "name": "Ayesha Akter Lima", "designation": "Lecturer"},
+{"sl_no": 12, "name": "Salma Akter Lima", "designation": "Lecturer"},
+{"sl_no": 13, "name": "Ipshita Tasnim Raha", "designation": "Lecturer"},
+{"sl_no": 14, "name": "Sumaiya Tasnim", "designation": "Lecturer"},
+{"sl_no": 15, "name": "Shamim Reza", "designation": "Lecturer"},
+{"sl_no": 16, "name": "Samira Tareque", "designation": "Lecturer"},
+{"sl_no": 17, "name": "Akib ikbal", "designation": "Lecturer"},
+{"sl_no": 18, "name": "Mohammad Faisal Al-Naser", "designation": "Lecturer"},
+{"sl_no": 19, "name": "Ahmed-Al-Azmain", "designation": "Lecturer"},
+{"sl_no": 20, "name": "Md. Muktar Hossain", "designation": "Lecturer"},
+{"sl_no": 21, "name": "Md. Fatin Ilham", "designation": "Lecturer"},
+{"sl_no": 22, "name": "Md. Jamil Chaudhary", "designation": "Lecturer"},
+{"sl_no": 23, "name": "Md. Shahid Ahammed Shakil", "designation": "Lecturer"},
+{"sl_no": 24, "name": "Zannatul Mifta", "designation": "Lecturer"},
+{"sl_no": 25, "name": "Arun Kumar Sikder", "designation": "Lecturer"},
+{"sl_no": 26, "name": "Sushmit Jahan", "designation": "Lecturer"},
+{"sl_no": 27, "name": "Md. Ruhul Amin", "designation": "Lecturer"},
+{"sl_no": 28, "name": "Md. Mahfujur Rahman", "designation": "Lecturer"},
+{"sl_no": 29, "name": "D.M. Asadujjaman", "designation": "Lecturer"},
+{"sl_no": 30, "name": "Israt Jahan Rinky", "designation": "Lecturer"},
+{"sl_no": 31, "name": "Protik Chakroborty", "designation": "Lecturer"},
+{"sl_no": 32, "name": "Shorav Paul", "designation": "Lecturer"},
+{"sl_no": 33, "name": "Arshad Wasif", "designation": "Lecturer"},
+{"sl_no": 34, "name": "Md. Taufiq Khan", "designation": "Lecturer"},
+{"sl_no": 35, "name": "Mst. Nafia Islam Shishir", "designation": "Lecturer"},
+{"sl_no": 36, "name": "Sumaya Hannan Shova", "designation": "Lecturer"},
+{"sl_no": 37, "name": "Md. Fayzul Islam", "designation": "Lecturer"},
+{"sl_no": 38, "name": "Md. Rakibul islam", "designation": "Lecturer"},
+{"sl_no": 39, "name": "Mst. Mazeda Noor Tasnim", "designation": "Lecturer"},
+{"sl_no": 40, "name": "Md. Adnan Sami", "designation": "Lecturer"},
+{"sl_no": 41, "name": "Adrita Alam", "designation": "Lecturer"},
+{"sl_no": 42, "name": "Rokaiya Tasnim", "designation": "Lecturer"},
+{"sl_no": 43, "name": "Afroza Islam", "designation": "Lecturer"},
+{"sl_no": 44, "name": "Humayra Tasnim", "designation": "Lecturer"},
+{"sl_no": 45, "name": "Asim Moin Saad", "designation": "Lecturer"},
+{"sl_no": 46, "name": "Zuairia Raisa Bintay Makin", "designation": "Lecturer"},
+{"sl_no": 47, "name": "Afifa Tasneem Quanita", "designation": "Lecturer"},
+{"sl_no": 48, "name": "Md. Khalid Sakib", "designation": "Lecturer"},
+{"sl_no": 49, "name": "Anupoma Barmon Shetu", "designation": "Lecturer"},
+{"sl_no": 50, "name": "MD. Alamin Hossain Pappu", "designation": "Lecturer"},
+{"sl_no": 51, "name": "Sajeeb Kumar Ray", "designation": "Lecturer"},
+{"sl_no": 52, "name": "Tahrima Sayem Sowa", "designation": "Lecturer"},
+{"sl_no": 53, "name": "Mehedi Hasan Shakil", "designation": "Lecturer"},
+{"sl_no": 54, "name": "Barisha Chowdhury", "designation": "Lecturer"},
+{"sl_no": 55, "name": "Syeda Tamanna Alam Monisha", "designation": "Lecturer"},
+{"sl_no": 56, "name": "Shakil Hossan", "designation": "Lecturer"},
+{"sl_no": 57, "name": "Mohd Ruhul Ameen", "designation": "Lecturer"},
+{"sl_no": 58, "name": "Fahmida Akter Jesis Shithi", "designation": "Lecturer"}
+];
+
+const COURSES = ["Applied Statistics and Probability","Artificial Intelligence","Artificial Intelligence Lab","Basic Electrical Circuits","Basic Electrical Circuits Lab","Basic Physics","Basic Physics Lab","Big Data Analysis","Big Data Analysis Lab","Chemistry","Communication Engineering","Computer Algorithms","Computer Algorithms Lab","Computer Architecture","Computer Architecture Lab","Computer Fundamentals","Computer Fundamentals Lab","Computer Graphics","Computer Graphics Lab","Computer Networks","Computer Networks Lab","Coordinate Geometry and Vector Analysis","Cryptography and network Security","Cryptography and network Security lab","Data Structures","Data Structures Lab","Database Management System","Database Management System Lab","Diff. and Int. Calculus","Differential Equations","Digital Image Processing","Digital Image Processing Lab","Digital Signal Processing","Digital Signal Processing Lab","Digital System Design","Digital System Design Lab","Discrete Mathematics","E-commerce and Web Programming","E-commerce and Web Programming Project Lab","Electronic Devices and Circuits","Electronic Devices and Circuits Lab","Engineering Economics","Engineering Ethics and Environmental Protection","English Fundamentals","History of the Emergence of Bangladesh","Industrial Attachment","Industrial Management and Accountancy","Linear Algebra and Complex Variables","Machine Learning","Machine Learning Lab","Microcontroller, Computer Peripherals and Interfacing","Microcontroller, Computer Peripherals and Interfacing Lab","Microprocessor and Assembly Language","Microprocessor and Assembly Language Lab","Numerical Methods","Numerical Methods Lab","Object Oriented Design and Design Patterns","Object Oriented Design and Design Patterns Lab","Object Oriented Programming","Object Oriented Programming Lab","Operating System and System Programming","Operating System and System Programming Lab","Parallel Processing and Distributed Systems","Parallel Processing and Distributed Systems Lab","Structured Programming Language","Structured Programming Language Lab","Technical Report Writing","Theory of Computation and Compiler Design"];
+
+let currentTeacher = null;
+let deadlineISO = null;
+let isLocked = false;
+
+async function loadDeadline(){
+  try{
+    const res = await window.storage.get('settings:deadline', true);
+    deadlineISO = (res && res.value) ? res.value : null;
+  }catch(e){
+    deadlineISO = null;
+  }
+  isLocked = deadlineISO ? (new Date() > new Date(deadlineISO)) : false;
+  applyLockState();
+}
+
+function applyLockState(){
+  const banner = document.getElementById('locked-banner');
+  const submitBtn = document.getElementById('submit-btn');
+  const teacherSelect = document.getElementById('teacher-select');
+  const remarks = document.getElementById('remarks');
+  banner.style.display = isLocked ? 'block' : 'none';
+  submitBtn.style.display = isLocked ? 'none' : 'block';
+  teacherSelect.disabled = isLocked;
+  remarks.disabled = isLocked;
+  for(let i=1;i<=6;i++){
+    const el = document.getElementById(`choice-${i}`);
+    if(el) el.disabled = isLocked;
+  }
+  const editBtn = document.querySelector('.edit-btn');
+  if(editBtn) editBtn.style.display = isLocked ? 'none' : 'inline-block';
+}
+
+async function saveDeadline(){
+  const val = document.getElementById('deadline-input').value;
+  if(!val){ alert('Pick a date and time first.'); return; }
+  const iso = new Date(val).toISOString();
+  await window.storage.set('settings:deadline', iso, true);
+  await loadDeadline();
+  renderDeadlineStatus();
+}
+
+async function clearDeadline(){
+  await window.storage.delete('settings:deadline', true);
+  deadlineISO = null;
+  isLocked = false;
+  applyLockState();
+  renderDeadlineStatus();
+}
+
+function renderDeadlineStatus(){
+  const el = document.getElementById('deadline-status');
+  if(!deadlineISO){
+    el.textContent = 'Open — no deadline set';
+    el.className = 'deadline-status open';
+  } else {
+    const d = new Date(deadlineISO);
+    const closed = new Date() > d;
+    el.textContent = (closed ? 'Closed since ' : 'Open until ') + d.toLocaleString();
+    el.className = 'deadline-status ' + (closed ? 'closed' : 'open');
+  }
+}
+
+function initials(name){
+  return name.replace(/[.,]/g,'').split(/\s+/).slice(0,3).map(w=>w[0]).join('').toUpperCase();
+}
+
+function populateTeacherSelect(){
+  const sel = document.getElementById('teacher-select');
+  TEACHERS.forEach(t=>{
+    const opt = document.createElement('option');
+    opt.value = t.sl_no;
+    opt.textContent = t.name;
+    sel.appendChild(opt);
+  });
+}
+
+function buildChoiceRows(){
+  const container = document.getElementById('choice-rows');
+  container.innerHTML = '';
+  for(let i=1;i<=6;i++){
+    const row = document.createElement('div');
+    row.className = 'choice-row' + (i===1 ? ' required' : '');
+    row.innerHTML = `
+      <div class="choice-badge">${i}</div>
+      <select id="choice-${i}" onchange="onChoiceChange()">
+        <option value="">${i===1 ? 'Select your 1st choice' : '(none)'}</option>
+      </select>`;
+    container.appendChild(row);
+  }
+  refreshChoiceOptions();
+}
+
+function refreshChoiceOptions(){
+  const selected = [];
+  for(let i=1;i<=6;i++){
+    const v = document.getElementById(`choice-${i}`).value;
+    if(v) selected.push(v);
+  }
+  for(let i=1;i<=6;i++){
+    const sel = document.getElementById(`choice-${i}`);
+    const current = sel.value;
+    const placeholder = sel.options[0];
+    sel.innerHTML = '';
+    sel.appendChild(placeholder);
+    COURSES.forEach(c=>{
+      if(c === current || !selected.includes(c)){
+        const opt = document.createElement('option');
+        opt.value = c; opt.textContent = c;
+        if(c === current) opt.selected = true;
+        sel.appendChild(opt);
+      }
+    });
+  }
+}
+
+function onChoiceChange(){
+  refreshChoiceOptions();
+  document.getElementById('choice-error').classList.remove('show');
+}
+
+function onTeacherChange(){
+  const sl = document.getElementById('teacher-select').value;
+  const line = document.getElementById('designation-line');
+  if(!sl){ line.textContent=''; return; }
+  const t = TEACHERS.find(x=>String(x.sl_no)===sl);
+  line.textContent = t.designation;
+  loadExistingSubmission(t);
+}
+
+async function loadExistingSubmission(t){
+  try{
+    const res = await window.storage.get(`choice_response:${t.sl_no}`, true);
+    if(res && res.value){
+      const data = JSON.parse(res.value);
+      showConfirmation(data, false);
+    } else {
+      document.getElementById('form-card').style.display = 'block';
+      document.getElementById('confirm-card').style.display = 'none';
+    }
+  }catch(e){
+    document.getElementById('form-card').style.display = 'block';
+    document.getElementById('confirm-card').style.display = 'none';
+  }
+}
+
+async function submitChoice(){
+  if(isLocked){
+    alert('The submission deadline has passed. Contact the department for changes.');
+    return;
+  }
+  const sl = document.getElementById('teacher-select').value;
+  if(!sl){
+    alert('Please select your name first.');
+    return;
+  }
+  const t = TEACHERS.find(x=>String(x.sl_no)===sl);
+  const choices = [];
+  for(let i=1;i<=6;i++){
+    choices.push(document.getElementById(`choice-${i}`).value || null);
+  }
+  const errEl = document.getElementById('choice-error');
+  if(!choices[0]){
+    errEl.classList.add('show');
+    return;
+  }
+  const nonNull = choices.filter(c=>c);
+  if(new Set(nonNull).size !== nonNull.length){
+    errEl.textContent = "You've selected the same course more than once.";
+    errEl.classList.add('show');
+    return;
+  }
+  errEl.classList.remove('show');
+
+  const data = {
+    sl_no: t.sl_no,
+    name: t.name,
+    designation: t.designation,
+    choices: choices,
+    remarks: document.getElementById('remarks').value.trim(),
+    submitted_at: new Date().toISOString()
+  };
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
+  try{
+    await window.storage.set(`choice_response:${t.sl_no}`, JSON.stringify(data), true);
+    showConfirmation(data, true);
+  }catch(e){
+    alert('Could not save your submission. Please try again.');
+    btn.disabled = false;
+    btn.textContent = 'Submit choices';
+  }
+}
+
+function showConfirmation(data, justSubmitted){
+  currentTeacher = data;
+  document.getElementById('form-card').style.display = 'none';
+  document.getElementById('confirm-card').style.display = 'block';
+  document.getElementById('confirm-name').textContent = justSubmitted ? 'Choices submitted' : `Welcome back, ${data.name.split(' ')[0]}`;
+  const list = document.getElementById('confirm-summary');
+  list.innerHTML = '';
+  data.choices.forEach((c,i)=>{
+    if(c){
+      const div = document.createElement('div');
+      div.innerHTML = `<span class="rank">${i+1}.</span>${c}`;
+      list.appendChild(div);
+    }
+  });
+  if(data.remarks){
+    const div = document.createElement('div');
+    div.style.marginTop = '8px';
+    div.style.color = 'var(--muted)';
+    div.style.fontStyle = 'italic';
+    div.textContent = `Remarks: ${data.remarks}`;
+    list.appendChild(div);
+  }
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = false;
+  btn.textContent = 'Submit choices';
+}
+
+function editSubmission(){
+  if(!currentTeacher || isLocked) return;
+  document.getElementById('form-card').style.display = 'block';
+  document.getElementById('confirm-card').style.display = 'none';
+  currentTeacher.choices.forEach((c,i)=>{
+    document.getElementById(`choice-${i+1}`).value = c || '';
+  });
+  refreshChoiceOptions();
+  document.getElementById('remarks').value = currentTeacher.remarks || '';
+  applyLockState();
+}
+
+function switchTab(tab){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===tab));
+  document.getElementById('form-view').style.display = tab==='form' ? 'block' : 'none';
+  document.getElementById('admin-view').style.display = tab==='admin' ? 'block' : 'none';
+  if(tab === 'admin'){
+    loadAdminView();
+    renderDeadlineStatus();
+    if(deadlineISO){
+      const local = new Date(deadlineISO);
+      local.setMinutes(local.getMinutes() - local.getTimezoneOffset());
+      document.getElementById('deadline-input').value = local.toISOString().slice(0,16);
+    }
+  }
+}
+
+let allSubmissions = [];
+
+async function loadAdminView(){
+  const tbody = document.getElementById('admin-tbody');
+  const countEl = document.getElementById('submission-count');
+  tbody.innerHTML = '<tr><td colspan="11" style="text-align:center;color:var(--muted);padding:24px;">Loading…</td></tr>';
+  try{
+    const listRes = await window.storage.list('choice_response:', true);
+    const keys = (listRes && listRes.keys) ? listRes.keys : [];
+    allSubmissions = [];
+    for(const k of keys){
+      try{
+        const r = await window.storage.get(k, true);
+        if(r && r.value) allSubmissions.push(JSON.parse(r.value));
+      }catch(e){}
+    }
+    allSubmissions.sort((a,b)=>a.sl_no-b.sl_no);
+    countEl.textContent = `${allSubmissions.length} of ${TEACHERS.length} teachers have submitted`;
+    if(allSubmissions.length === 0){
+      tbody.innerHTML = '<tr><td colspan="11" class="empty-state">No submissions yet.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = '';
+    allSubmissions.forEach(s=>{
+      const tr = document.createElement('tr');
+      const cells = [
+        s.sl_no, s.name, s.designation,
+        s.choices[0]||'—', s.choices[1]||'—', s.choices[2]||'—',
+        s.choices[3]||'—', s.choices[4]||'—', s.choices[5]||'—',
+        s.remarks || '—',
+        new Date(s.submitted_at).toLocaleString()
+      ];
+      cells.forEach(c=>{
+        const td = document.createElement('td');
+        td.textContent = c;
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+  }catch(e){
+    tbody.innerHTML = '<tr><td colspan="11" class="empty-state">Could not load submissions.</td></tr>';
+  }
+}
+
+function exportCSV(){
+  if(allSubmissions.length===0){ alert('No submissions to export yet.'); return; }
+  const headers = ['SL No','Name','Designation','Choice1','Choice2','Choice3','Choice4','Choice5','Choice6','Remarks','Submitted At'];
+  const rows = allSubmissions.map(s=>[
+    s.sl_no, s.name, s.designation,
+    ...s.choices.map(c=>c||''),
+    (s.remarks||'').replace(/"/g,'""'),
+    s.submitted_at
+  ]);
+  const csv = [headers, ...rows].map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `course_choices_${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+populateTeacherSelect();
+buildChoiceRows();
+loadDeadline();
+</script>
+</body>
+</html>

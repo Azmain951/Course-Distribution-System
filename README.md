@@ -48,14 +48,40 @@ templates/
   Batch_Registry_TEMPLATE.xlsx          — active batches, curriculum, current semester-position
   Curriculum_Courses.xlsx               — course list for all 3 curricula, all 8 semesters
 web/
-  course_choice_form.html   — teacher-facing form (Claude artifact, shared storage)
+  course_choice_form.html   — teacher-facing form, Claude-artifact version (shared storage,
+                               works instantly inside claude.ai, no setup — but the link only
+                               works when opened through Claude)
 docs/
+  index.html                — the SAME form, adapted to run standalone on GitHub Pages,
+                               backed by a free Firebase database instead of Claude's
+                               artifact storage. This is the folder GitHub Pages serves from.
+  .nojekyll                 — tells GitHub Pages to serve the file as-is, no Jekyll processing
+firestore.rules             — security rules to paste into the Firebase console
+SETUP_FIREBASE.md           — step-by-step: create the Firebase project, connect it,
+                               turn on GitHub Pages
+curriculum-reference/
   curriculum_a.md, curriculum_b.md, curriculum_c.md  — transcribed source syllabi (reference)
 sample_data/
   Real Summer 2026 data, used to build and validate the assignment engine's rules
   (credit-splitting model, theory/lab pairing, priority order). Contains real
   teacher names — keep this repo private.
 ```
+
+## Hosting the web form
+
+Two versions of the same form exist, for two different situations:
+
+| | `web/course_choice_form.html` | `docs/index.html` |
+|---|---|---|
+| Runs inside | a Claude artifact link | any web browser, standalone |
+| Backend | Claude's built-in artifact storage | Firebase Firestore (free) |
+| Setup needed | none | ~10 minutes, see `SETUP_FIREBASE.md` |
+| Link stays valid | as long as the Claude conversation/artifact exists | permanently, at your own GitHub Pages URL |
+
+If you want a permanent, department-owned link (e.g.
+`https://<username>.github.io/<repo>/`) instead of a Claude artifact link,
+follow **`SETUP_FIREBASE.md`** — it walks through creating the free Firebase
+project and turning on GitHub Pages.
 
 ## Current status
 
@@ -112,10 +138,13 @@ python3 generate_requirements.py ../templates/Batch_Registry_TEMPLATE.xlsx ../te
 
 ## Known limitations
 
-- **The web form depends on Claude's artifact storage API** (`window.storage`),
-  which only works inside a Claude artifact — it will **not** function if
-  hosted standalone (e.g. GitHub Pages) without swapping in a real backend
-  (a small serverless function, Google Sheets API, Firebase, etc.).
+- `web/course_choice_form.html` (the Claude-artifact version) depends on
+  Claude's artifact storage API — it only works when opened through a Claude
+  artifact link, not as a standalone site. `docs/index.html` is the version
+  to use for standalone/GitHub Pages hosting (see "Hosting the web form" above).
+- `docs/index.html`'s Firestore security rules (see `firestore.rules`) allow
+  open read/write with no login, matching the original artifact version's
+  security level. Fine for a low-stakes internal tool; tighten later if needed.
 - `sample_data/` contains real teacher names from Summer 2026 — keep this
   repository **private**, or scrub it before making it public.
 - Section counts for a given course default to "all of the batch's sections";
