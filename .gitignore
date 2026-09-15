@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.pkl
+generated_course_requirements.csv
+generated_special_load.csv
+assignment_log*.csv
+unassigned_report*.csv
+.DS_Store
+*.xlsx.lock
+~$*.xlsx

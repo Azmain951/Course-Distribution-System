@@ -1,0 +1,92 @@
+sl_no,name,initial,credit_limit,prev_assigned_credit
+1,Prof. Shamim Ahmad,SA,6.0,6.0
+2,Dr. Ahammad Hossain,AH,15.0,15.0
+3,Md. Mizanur Rahman,MR,18.0,15.0
+4,Umme Rumman,URC,18.0,9.75
+5,Mst. Jannatul Ferdous,JF,18.0,18.0
+6,Sumaia Rahman,SR,18.0,15.0
+7,A.S.M. Delwar Hossain,DH,18.0,18.0
+8,Md. Toufikul Islam,MTI,18.0,18.0
+9,Md. Nour Noby,NN,18.0,18.0
+10,Ayesha Akter Lima,AAL,18.0,18.0
+11,Salma Akter Lima,SAL,,18.0
+12,Ipshita Tasnim Raha,ITR,18.0,16.5
+13,Sumaiya Tasnim,ST,18.0,15.0
+14,Shamim Reza,SHR,18.0,18.0
+15,Samira Tareque,SMT,18.0,15.75
+16,Akib ikbal,AKI,18.0,18.0
+17,Mohammad Faisal Al-Naser,MFA,18.0,18.0
+18,Ahmed-Al-Azmain,AAA,18.0,18.0
+19,Md. Muktar Hossain,MH,18.0,15.0
+20,Md. Fatin Ilham,FIL,18.0,18.0
+21,Md. Jamil Chaudhary,JC,18.0,18.0
+22,Md. Shahid Ahammed Shakil,SAS,18.0,18.0
+23,Zannatul Mifta,ZM,18.0,18.0
+24,Sushmit Jahan,SJR,18.0,0.0
+25,Md. Ruhul Amin,RA,18.0,12.0
+26,Mahfujur Rahman,MMR,18.0,18.0
+27,D.M. Asadujjaman,DMA,18.0,18.0
+28,Israt Jahan Rinky,IJR,18.0,18.0
+29,Protik Chakroborty,PRC,18.0,18.0
+30,Shorav Paul,SP,18.0,12.0
+31,Arshad Wasif,AW,18.0,18.0
+32,Md. Taufiq Khan,MTK,18.0,18.0
+33,Sumaya Hannan Shova,SHS,18.0,18.0
+34,Md. Fayzul Islam,MFI,18.0,18.0
+35,Md. Adnan Sami,MAS,18.0,18.0
+36,Adrita Alam,AAP,18.0,18.0
+37,Afroza Islam,AI,18.0,18.0
+38,Humayra Tasnim,HT,18.0,18.0
+39,Asim Moin Saad,AMS,18.0,18.0
+40,Zunairia Raisa Bintay Makin,ZRBM,18.0,18.0
+41,Md. Khalid Sakib,MKS,18.0,18.0
+42,Anupoma Barmon Shetu,ASB,18.0,18.0
+43,MD. Alamin Hossain Pappu,AHP,18.0,18.0
+44,Sajeeb Kumar Ray,SKR,,18.0
+45,Tahrima Sayem Sowa,TSS,,18.5
+46,Mehedi Hasan Shakil,MHS,,18.0
+47,Barisha Chowdhury,BCH,,18.0
+48,Syeda Tamanna Alam Monisha,STAM,,18.0
+49,Shakil Hossan,SH,,18.0
+50,Mohd Ruhul Ameen,MRA,,18.5
+51,Shah Rafatur Rahman,SRR,,18.0
+52,Md. Zaheer Raihan,ZR,,18.0
+53,Nuhan Intekhab,NI,,18.0
+54,S.M. Mahadi Hasan,SMH,,18.0
+55,Sraboni Mostofa,SMM,,18.0
+56,Md. Mehedi Hasan,MMH,,18.0
+1,"DR. MD. EKRAMUL HAMID, PROFESSOR, RU/EH",EH,,3.0
+2,"Dr. Md. Johirul Islam, Assistant Professor, RUET/JI",JI,,3.0
+3,"SANJOY KUMAR CHAKRAVARTY, ASSOCIATE PROFESSOR, RU/SKC",SKC,,3.0
+4,Arifur Rahman,MAR,,0.0
+5,Dr. Md. Ali Hossain,MAH,,0.0
+6,Boshir Ahmed,BSH,,3.0
+7,"DR. RIAZ UDDIN MONDAL,ASSOCIATE PROFESSOR",RUM,,0.0
+8,"DR. DIPANKAR DAS,PROFESSOR,RU",DD,,0.0
+9,DR. MD. ABU BKAR PK.,ABP,,0.0
+10,DR. MD. HAMIDUL ISLAM,MHI,,0.0
+11,Dr. Md. Riju Khandaker,MRK,,0.0
+12,DR. MD. ABDUR RASHID,AR,,0.0
+13,DR. MD. ABDUL MANNAN,AM,,0.0
+14,DR. DULAL CHANDRA KABIRAZ,DCK,,0.0
+15,DR. MD. ABDUR RAHMAN,ABR,,0.0
+16,DR. MD. SHAMIM HOSSAN,MSH,,0.0
+17,Dr. Md. Ali Asraf,MAA,,0.0
+18,"Faridujjaman, IT, VU",FZ,,0.0
+19,Md. Nazrul Islam Mondal,NIM,,0.0
+20,Md. Golam Rashed,GR,,3.0
+21,Md. Zahurul Islam,MZI,,0.0
+22,Dr. Jogendra Nath Pk.,JNP,,0.0
+23,"Dr. Sinthia Shabnam Mou, EEE, RU",SSM,,0.0
+24,"Prof. A.H.M. Rahmatullah Imon, CIR, VU",RI,,0.0
+25,"Arifa Fedousi, ICE, RU",AF,,3.0
+26,"FOEZ AHMED, ICE, RU",FA,,3.0
+27,"Dr. Jaker Hossain. Professor, EEE, RU",JH,,3.0
+28,Md. Iqbal Aziz Khan,IAK,,3.0
+29,"Md. Faruk Hossain, PHY, RUET",MFH,,0.0
+30,"Dr. Jewel Hossen, Chemistry, RUET",JEH,,0.0
+31,"Dr. Md. Mayeedul Islam, Chemistry, RUET",MMI,,0.0
+32,"Dr. Md.  Ariful Islam Nahid
+Professor,  Dept. Of EEE,RU",AIN,,0.0
+33,"Md. Faisal Rahman Badal
+Assistant Professor,  MTE, RUET",FRB,,0.0
